@@ -29,7 +29,7 @@ input_text = st.text_input("What question do you have in mind?")
 # ✅ Replace Ollama with Groq
 llm = ChatGroq(
     model="llama3-70b-8192",
-    api_key=os.getenv("GROQ_API_KEY")
+    api_key=st.secrets["GROQ_API_KEY"]
 )
 
 output_parser = StrOutputParser()
