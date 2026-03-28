@@ -1,16 +1,16 @@
 import os
 from dotenv import load_dotenv
 
-from langchain_community.llms import Ollama
 import streamlit as st
 
+from langchain_groq import ChatGroq
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 
 load_dotenv()
 
-# LangSmith Tracking
-os.environ["LANGSMITH_API_KEY"] = os.getenv("LANGSMITH_API_KEY")
+# LangSmith Tracking (optional)
+os.environ["LANGSMITH_API_KEY"] = st.secrets["GROQ_API_KEY"]
 os.environ["LANGSMITH_TRACING"] = "true"
 os.environ["LANGSMITH_PROJECT"] = os.getenv("LANGSMITH_PROJECT")
 
@@ -22,13 +22,15 @@ prompt = ChatPromptTemplate.from_messages(
     ]
 )
 
-# Streamlit Framework
+# Streamlit UI
 st.title("BrainWave AI")
-
 input_text = st.text_input("What question do you have in mind?")
 
-# Ollama gemma3 model
-llm = Ollama(model="gemma3:1b")
+# ✅ Replace Ollama with Groq
+llm = ChatGroq(
+    model="llama3-70b-8192",
+    api_key=os.getenv("GROQ_API_KEY")
+)
 
 output_parser = StrOutputParser()
 
